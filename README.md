@@ -25,3 +25,12 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+1.Replace the 192.168.18.57 in the environment.ts file with your publicIP address.
+2.ng serve --host youripaddress
+3.The video chat option works only in chrome and you have to set chrome flag treat insecure origin as secure.This is due to lack of SSL certificate.
+4. go to chrome://flags
+5. find treat insecure origins as secure 
+6. enter your ipaddress and port value and relaunch.eg http://192.168.18.57:4200
+7. do this for both the systems.
+
