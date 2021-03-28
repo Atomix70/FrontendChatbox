@@ -1,0 +1,48 @@
+<!-- <p>modal works!</p> -->
+<button><mat-icon aria-hidden="false" aria-label="Example home icon" (click)="closethis()">clear</mat-icon></button>
+<div>Select upto 3 users </div>
+<div>
+    <mat-selection-list #forward [(ngModel)]="contacts" (ngModelChange)="tester()" class="forwardlist">
+    
+    <h3>Your Chats</h3>
+
+    <div *ngFor="let recent of data.chats">
+    <ng-container *ngIf="!data.mutedlist.includes(recent.contact)">  
+    <mat-list-option #username  [value]="recent.contact" [disabled]="contacts.length>=3 &&  !username.selected">
+        <!-- <ng-container *ngIf="!mutedlist.includes(recent.contact)" class="userchat"> -->
+        <img  matListAvatar [src]="recent.profilepicURL"  class="chat-profile-picture" alt="">
+         <h3 matLine >{{recent.contact}}</h3>
+         <small class="chat-alert label label-danger" *ngIf="recent.unread!=0">{{recent.unread}}</small>
+         <p matLine> {{recent.message[recent.message.length-1].message}}</p>
+        <!-- </ng-container>    -->
+         <mat-divider></mat-divider>
+        </mat-list-option>
+      </ng-container>
+      </div>
+
+
+
+
+
+
+
+    <h3>All Users</h3>
+    <mat-list-option #username  *ngFor="let user of data.allUsers" [value]="user.username" [disabled]="(contacts.length>=3 && !username.selected) || data.blockedlist.includes(user.username)">
+        <img  matListAvatar [src]="user.profilepicURL" class="chat-profile-picture" alt="">
+        
+        <!-- <small class="chat-alert label label-danger" >3</small> -->
+        <h3 matLine>{{user.username}}</h3> 
+     <p matLine> {{user.email}}</p>
+     <small class="chat-alert label label-danger" id="alluser" >
+      <mat-icon aria-hidden="false" aria-label="Example home icon" *ngIf="data.mutedlist.includes(user.username)">volume_mute</mat-icon>
+      <mat-icon aria-hidden="false" aria-label="Example home icon" *ngIf="data.blockedlist.includes(user.username)">not_interested</mat-icon>
+    </small>
+     <mat-divider></mat-divider>
+    </mat-list-option>
+
+
+     </mat-selection-list>
+</div>
+<button mat-flat-button (click)='sendmessage();' class="send mrgn" color="primary"> <mat-icon>send</mat-icon> </button>
+
+

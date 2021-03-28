@@ -1,0 +1,77 @@
+<div class="tocenter">
+<div class='wrapper'>
+    <img [src]='imgUrl' class='image img-fluid'/>
+    <label for="fileToUpload"><span class='icon' role="button"><mat-icon>local_see</mat-icon></span>
+    </label>
+    <input type="File" #file (change)="tester(file.files,$event)" name="fileToUpload" id="fileToUpload"  accept="image/*"> 
+  </div>
+ 
+<button class="btn btn-primary" (click)="changephoto()">Confirm Change</button>
+<div></div>
+<div class="details">
+    <h2>{{currentuser}}</h2>
+    <p>{{currentemail}}</p>
+</div>
+</div>
+<div>
+    <mat-tab-group>
+        <mat-tab label="Muted Users" class="muted"> 
+            <mat-selection-list multiple="false">
+
+
+                <div *ngFor="let user of data.allUsers">
+                    <ng-container *ngIf="data.mutedlist.includes(user.username)" >
+                <mat-list-option   [value]="user.username">
+                    <img  matListAvatar [src]="user.profilepicURL" class="chat-profile-picture" alt="">
+                    
+                    <small class="chat-alert label label-danger"  id="alluser" >
+                        <mat-icon aria-hidden="false" aria-label="Example home icon" (click)="removemuted(user.username)" >clear</mat-icon>
+                        <!-- <mat-icon aria-hidden="false" aria-label="Example home icon" *ngIf="blockedlist.includes(user.username)">not_interested</mat-icon> -->
+                      </small>                    
+                    <h3 matLine >{{user.username}}</h3> 
+                 <p matLine > {{user.email}}</p>
+                 <mat-divider ></mat-divider>
+                </mat-list-option>
+                    </ng-container>
+                </div>
+
+
+        
+            </mat-selection-list>
+
+
+        </mat-tab>
+        
+        <mat-tab label="Blocked Users"> 
+
+            <mat-selection-list multiple="false" class="blocked">
+
+                <div *ngFor="let user of data.allUsers">
+                    <ng-container *ngIf="data.blockedlist.includes(user.username)" >
+                <mat-list-option   [value]="user.username">
+                    <img  matListAvatar [src]="user.profilepicURL" class="chat-profile-picture" alt="">
+                    
+                    <small class="chat-alert label label-danger"  id="alluser" >
+                        <mat-icon aria-hidden="false" aria-label="Example home icon" (click)="removeblocked(user.username)" >clear</mat-icon>
+                        <!-- <mat-icon aria-hidden="false" aria-label="Example home icon" *ngIf="blockedlist.includes(user.username)">not_interested</mat-icon> -->
+                      </small>                    
+                    <h3 matLine >{{user.username}}</h3> 
+                 <p matLine > {{user.email}}</p>
+                 <mat-divider ></mat-divider>
+                </mat-list-option>
+                    </ng-container>
+                </div>
+
+
+            </mat-selection-list>
+
+
+
+
+        </mat-tab>
+    </mat-tab-group>
+</div>
+
+
+
+

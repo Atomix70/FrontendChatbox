@@ -1,0 +1,55 @@
+
+<div class="loader"><mat-spinner color = accent></mat-spinner></div>
+
+<div class="login-form">
+    <form class="sign-up" [formGroup]="UserForm" (ngSubmit)="UserForm.valid && onSubmit()">
+        
+        <mat-form-field appearance="fill">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username" #input required>
+            <mat-hint align="end">{{input.value?.length || 0}}/15</mat-hint>
+            <mat-error *ngIf="UserForm.controls.email.invalid">{{getErrorMessage2()}}</mat-error>
+          </mat-form-field>
+
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Enter your email</mat-label>
+      <input matInput placeholder="pat@example.com" formControlName="email" required>
+      <mat-error *ngIf="UserForm.controls.email.invalid">{{getErrorMessage()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Enter your password</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" required>
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <div *ngIf="UserForm.controls.password.invalid && (UserForm.controls.password.dirty || UserForm.controls.password.touched)">  
+      <mat-error *ngIf="UserForm.controls.password.errors">Password is required and should be atleast 6 characters long </mat-error>
+      <!-- <mat-error *ngIf="UserForm.controls.password.errors.minlength">Password should have a minimum length of 6 characters</mat-error> -->
+    </div>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Confirm Password</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" formControlName="cnfpassword" required>
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <div *ngIf="UserForm.controls.cnfpassword.invalid && (UserForm.controls.cnfpassword.dirty || UserForm.controls.cnfpassword.touched)">  
+            <mat-error *ngIf="UserForm.controls.cnfpassword.errors">Password Confirmation is required and should match</mat-error>
+            <!-- <mat-error *ngIf="UserForm.controls.cnfpassword.errors.passvalidator">Passwords should match</mat-error> -->
+          </div>
+    </mat-form-field>
+    
+
+
+    <button  class="sign-up-button" mat-raised-button [disabled]="UserForm.invalid">Sign Up</button>
+
+
+    </form>
+
+   <div id="login-here">
+       <span>Already have an account? <a mat-button routerLink="/login/login">Login Here</a></span>
+   </div>
+  </div>

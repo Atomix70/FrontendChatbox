@@ -1,0 +1,75 @@
+<div class="area">
+
+<div class="glass">
+    <div class="logo">
+        <img src="./assets/images/logo.svg" alt="" height="80">
+    </div>
+
+    <!-- <div class="login-form">
+        <form class="sign-up">
+            <mat-form-field appearance="fill">
+                <mat-label>Username</mat-label>
+                <input matInput [formControl]="username" required>
+                <mat-error *ngIf="email.invalid">{{getErrorMessage2()}}</mat-error>
+              </mat-form-field>
+
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Enter your email</mat-label>
+          <input matInput placeholder="pat@example.com" [formControl]="email" required>
+          <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Enter your password</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'" required>
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Confirm Password</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'" required>
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+        </mat-form-field>
+        
+
+
+        <button  class="sign-up-button" mat-raised-button>Sign Up</button>
+
+
+        </form>
+
+       <div id="login-here">
+           <span>Already have an account? <a mat-button routerLink=".">Login Here</a></span>
+       </div>
+        
+      </div> -->
+     <div class="form-container">
+        <router-outlet></router-outlet>       
+    </div>
+   
+</div>
+
+<button id="privacy" mat-flat-button (click)="openDialog()"> Privacy policy</button>
+
+
+        <ul class="circles">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+        </ul>
+
+</div>
+
+

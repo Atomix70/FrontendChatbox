@@ -1,0 +1,44 @@
+.forwardlist {
+  height: 300px;
+  overflow-y: auto;
+}
+
+.mrgn {
+  height: 50px;
+  width: 50px;
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.send {
+  overflow: hidden;
+}
+// .chat-alert {
+//     position: absolute;
+//     height: 24px;
+//     width: 24px;
+//     right: 8px;
+//     top: 27px;
+//     font-size: 6px;
+//     padding: 3px 5px;
+//     background-color: #009688;
+//     text-align: center;
+//     color: whitesmoke;
+//     p {
+//       margin-top: 10%;
+//     }
+//   }
+#alluser {
+  position: absolute;
+  height: 24px;
+  width: 60px;
+  right: 8px;
+  top: 27px;
+  font-size: 10px;
+  //   padding: 3px 20px;
+  margin-right: 30px;
+  background-color: transparent;
+  text-align: center;
+  color: grey;
+}

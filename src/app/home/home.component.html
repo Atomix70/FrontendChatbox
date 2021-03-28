@@ -1,0 +1,267 @@
+
+
+<ng-template #content let-modal>
+  
+  <div class="modal-body">
+    <div id="containervideo">
+    <div  id="my-video"></div>
+    <div  id="remote-video"></div>
+    </div>
+    <div id="calldesc" *ngIf="calldescshow">
+      <div class="call-animation">
+        <img class="img-circle" [src]="calldescimage" alt="" width="135"/>
+        </div>
+<br>
+<br>
+        <h3><b>{{calldescname}}.....</b></h3>
+    </div>
+   
+  </div>
+  <!-- <div class="modal-footer"> -->
+    <!-- <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button> -->
+    <div id="call-options">
+    <button mat-fab color="primary" (click)="callaccept(caller)" [disabled]="callbuttondisable">
+      <mat-icon>call</mat-icon>
+    </button>
+    <button mat-fab color="warn" (click)="callreject(caller)">
+      <mat-icon>call_end</mat-icon>
+    </button>
+  </div>
+  <!-- </div> -->
+</ng-template>
+
+
+<div class="main mat-app-background" [ngClass]="dark ? 'dark unicorn-dark-theme' : 'light'">
+    <div class="content" [ngClass]="dark ? 'dark2' : 'light2'">
+        <div class="recent-chats">
+            <div class="user-card">
+              <a href="#" onclick="return false" (click)="openDialog2(myprofilepicURL)"><img [src]="myprofilepicURL" alt="user_picture" class="user-image" ></a>
+                <div class="chat-header">
+                <span class="chat-header mat-h2" >Recent Chats</span>
+                </div>
+                <button [matMenuTriggerFor]="darkmode" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                    <mat-icon>bedtime</mat-icon>
+                  </button>
+                 
+            </div>
+
+<mat-divider></mat-divider>
+<mat-menu #darkmode="matMenu">
+    <mat-slide-toggle (change) = 'toggleTheme()' labelPosition = 'before' [(ngModel)] = "dark"> 
+        <mat-icon> bedtime</mat-icon>  Dark Mode</mat-slide-toggle>
+    </mat-menu>
+
+            <div class="searchbar">
+                <mat-form-field appearance="fill" class="fix-width rounded">
+                    <input  matInput placeholder="Search Chats">
+                    <mat-icon matSuffix>search</mat-icon>
+                  </mat-form-field>
+            </div>
+            <mat-tab-group class="chat-list" (selectedTabChange)="getallusers()" [selectedIndex]="tab.toString()">
+                <mat-tab label="Recent"> 
+                    <div class="chat-list">
+                
+                        <mat-selection-list #recentchats [multiple]="false">
+                     
+                     
+                          <div *ngFor="let recent of chats">
+                            <ng-container *ngIf="!mutedlist.includes(recent.contact)&&!blockedlist.includes(recent.contact)">
+                          <mat-list-option   [value]="recent.contact" (click)="userselector(recent.contact,recent.profilepicURL)">
+                              <img  matListAvatar [src]="recent.profilepicURL" class="chat-profile-picture" alt="">
+                          <h3 matLine><span class="logged-in" *ngIf="activeusers.includes(recent.contact)">●</span>{{recent.contact}}</h3>
+                          <small class="chat-alert label label-danger" *ngIf="recent.unread!=0"><p>{{recent.unread}}</p></small>
+                          <p matLine> {{recent.message[recent.message.length-1].message}}</p>
+                          <mat-divider></mat-divider>
+                          </mat-list-option>
+                        </ng-container>
+                      </div>  
+                     
+                     
+                          </mat-selection-list>
+                          
+                          <div class="new-chat">
+                            <button (click)="this.tab=this.tab+1;" mat-fab color="accent" aria-label="Example icon button with a delete icon">
+                              <mat-icon>create</mat-icon>
+                            </button>
+                          </div> 
+                          <mat-accordion class="accordition">
+                            <mat-expansion-panel (opened)="panelOpenState = true"
+                            (closed)="panelOpenState = false">
+                                <mat-expansion-panel-header class="" [ngClass]="dark ? 'dark unicorn-dark-theme' : ''">
+                                <mat-panel-title>
+                                Muted Chats
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                View/Unmute chats
+                                </mat-panel-description>
+                                </mat-expansion-panel-header>
+
+                                <mat-selection-list #recentchats [multiple]="false">
+
+                                        <div *ngFor="let recent of chats">
+                                            <ng-container *ngIf="mutedlist.includes(recent.contact)">
+                                          <mat-list-option   [value]="recent.contact" (click)="userselector(recent.contact,recent.profilepicURL)">
+                                              <img  matListAvatar [src]="recent.profilepicURL" class="chat-profile-picture" alt="">
+                                          <h3 matLine><span class="logged-in" *ngIf="activeusers.includes(recent.contact)">●</span>{{recent.contact}}</h3>
+                                          <small class="chat-alert label label-danger" *ngIf="recent.unread!=0"><p>{{recent.unread}}</p></small>
+                                          <p matLine> {{recent.message[recent.message.length-1].message}}</p>
+                                          <mat-divider></mat-divider>
+                                          </mat-list-option>
+                                        </ng-container>
+                                      </div>                                
+                                      </mat-selection-list>
+                                </mat-expansion-panel>
+                          </mat-accordion>
+                        </div>    
+                </mat-tab>
+                <mat-tab label="Contacts" > 
+                    <mat-selection-list #allusers [multiple]="false">
+
+                    <div *ngFor="let user of allUsers">          
+                        <ng-container *ngIf="user.username!=currentuser">
+
+
+                        <mat-list-option   [value]="user.username" (click)="userselector(user.username,user.profilepicURL)">
+                            <img  matListAvatar [src]="user.profilepicURL" class="chat-profile-picture" alt="">
+                            <small class="chat-alert label label-danger" id="alluser" >
+                              <mat-icon aria-hidden="false" aria-label="Example home icon" *ngIf="mutedlist.includes(user.username)">volume_mute</mat-icon>
+                              <mat-icon aria-hidden="false" aria-label="Example home icon" *ngIf="blockedlist.includes(user.username)">not_interested</mat-icon>
+                            </small>
+                            <!-- <small class="chat-alert label label-danger" >3</small> -->
+                            <h3 matLine><span class="logged-in" *ngIf="activeusers.includes(user.username)">●</span>{{user.username}}</h3> 
+                         <p matLine> {{user.email}}</p>
+                         <mat-divider></mat-divider>
+                        </mat-list-option>
+                        
+                      </ng-container>
+                      </div> 
+
+                      </mat-selection-list>                
+                </mat-tab>
+                </mat-tab-group>
+            
+            
+        </div>
+        <div class="chat" *ngIf="!!selecteduser">
+            <div class="user-card">
+                <div class="chat-title">
+                    <img [src]="selecteduserimage" alt="vision" class="user-image">
+                    <span class="chat-header mrgn">{{selecteduser}}</span>
+                </div>
+               <div>
+                <button mat-icon-button aria-label="Example icon button with a vertical three dot icon" (click)="call();">
+                  <mat-icon> call</mat-icon></button>
+                <button (click) = "profile = !profile" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                    <mat-icon >info</mat-icon>
+                  </button>
+                  <button [matMenuTriggerFor]="menu" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                    <mat-icon>settings</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    
+                    <button mat-menu-item (click)="logout()">
+                      <mat-icon>logout</mat-icon>
+                      <span>Logout</span>
+                    </button>
+                    
+                  </mat-menu>
+
+               </div>
+            </div>
+            <mat-divider></mat-divider>   
+            <div  #scrollMe  class="messeges"  [@enterAnimation] >
+               <div *ngIf="selectedusermessages.length>0">
+                <div *ngFor="let mesg of selectedusermessages">
+                <div *ngIf="mesg.from!=currentuser" class="msg">
+                    <div class="bubble"  [ngClass]="dark ? 'dark-bubble' : 'left-bubble'">
+                        <div class="msg-info-time"><small>{{dateformatter(mesg.date)}}</small> </div>
+                        <div class="frwrd">
+                            
+                        </div>
+                        <div *ngIf="!!mesg.image">
+                          <img [src]="mesg.image" class="imager" alt="">
+                        </div>
+                        <div class="msger"><p>{{mesg.message}}</p></div>
+                    </div>
+                    <button mat-icon-button aria-label="Example icon button with a vertical three dot icon" (click)="openDialog(mesg.message,mesg.image)">
+                    <mat-icon>shortcut</mat-icon>
+                    </button>
+                </div>
+                <div *ngIf="mesg.from==currentuser" class="msg-snd">
+                    <div class="right-bubble bubble" >
+                      
+                        <div class="msg-info-time">
+                          <small>{{dateformatter(mesg.date)}}
+                            <mat-icon class="iconread" aria-hidden="false" aria-label="Example home icon" [ngStyle]="mesg.readstatus=='read'?{opacity:1}:{opacity:0.5}">check_circle_outline</mat-icon>
+                          </small> 
+                        </div>
+                        <br>
+                        <div *ngIf="!!mesg.image" >
+                          <img [src]="mesg.image" class="imager"alt="">
+                        </div>
+                       <div class="msger"><p>{{mesg.message}}</p></div> 
+                    </div>
+                    <button mat-icon-button aria-label="Example icon button with a vertical three dot icon" (click)="openDialog(mesg.message,mesg.image)">
+                        <mat-icon>shortcut</mat-icon>
+                        </button>
+                </div>
+            </div>
+               
+     
+            </div> 
+    
+            <!-- <app-conversations [selectedusermessages]="selectedusermessages" [dark]="dark"></app-conversations> -->
+    
+        </div>
+        <div class="overlay slider" *ngIf="!!cardImageBase64">
+          <div class="strip">
+              <Button (click)="clearphoto()"><mat-icon>clear</mat-icon></Button>
+          </div>
+          <div>
+            <img [src]="cardImageBase64"  alt="">
+          </div>
+        </div>
+            <div class="type-msg">
+                <!-- <input type="file" #fileInput id="fileUpload" name="fileUpload" multiple="multiple" accept="image/*" />
+                <label class="send" for="file">
+                    <input type="file" #fileInput id="fileUpload" name="fileUpload" multiple="multiple" accept="image/*" />
+                    <mat-icon>camera_alt</mat-icon></label> -->
+                <button  mat-button class="send" color="primary"> 
+                    <input type="file" #fileInput id="fileUpload" name="fileUpload" (change)="fileChangeEvent($event)" accept="image/*" />
+                    <mat-icon>camera_alt</mat-icon> </button>
+                <mat-form-field class="input" appearance="outline">
+                    <input [(ngModel)]="msg" matInput placeholder="Aa">
+                    <mat-icon color="primary" matSuffix><span class="emote"
+                        (click)="toggled = !toggled"
+                        [(emojiPickerIf)]="toggled"
+                        [emojiPickerDirection]="'bottom' || 'top' || 'left' || 'right'"
+                        (emojiPickerSelect)="handleSelection($event)"
+                        >😄</span
+                      ></mat-icon>
+                  </mat-form-field>
+                  <button mat-flat-button (click)='toggleTheme();sendmessage();' class="send mrgn" color="primary"> <mat-icon>send</mat-icon> </button>
+
+            </div>
+           
+        </div>
+       
+          
+        <div *ngIf="profile" [@enterAnimation] class="friend-profile">
+              <div class="profile">
+                  <div >
+                    <img class="pro-pic" [src]="selecteduserimage" alt="">
+                  </div>
+                  <mat-divider></mat-divider>
+                  <h2>{{selecteduser}}</h2>
+                  <mat-selection-list role="list"  [(ngModel)]="muteblockselect" (ngModelChange)="onmuteblock()" >
+                    <mat-list-option  value="block" role="listitem">Block Contact</mat-list-option>
+                    <mat-list-option  value="mute" role="listitem">Mute Contact </mat-list-option>
+                  </mat-selection-list>
+                 
+              </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- video modal -->

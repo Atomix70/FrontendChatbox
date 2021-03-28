@@ -1,0 +1,34 @@
+
+<div class="loader"><mat-spinner color = accent></mat-spinner></div>
+
+<div class="login-form" >
+    <form class="sign-up" [formGroup]="LoginForm" (ngSubmit)="LoginForm.valid && onSubmit()">
+        <h3 class="welcome">Hey Welcome Back ! Login to your account</h3>
+        <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" #input required>
+            <mat-error *ngIf="LoginForm.controls.email.invalid">{{getErrorMessage2()}}</mat-error>
+          </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Enter your password</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" required>
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+    </mat-form-field>
+    <mat-checkbox class="checker">Don't forget me</mat-checkbox>
+
+    
+
+
+    <button  class="sign-up-button" type="submit" mat-raised-button [disabled]="LoginForm.invalid">Log In</button>
+
+
+    </form>
+
+   <div id="login-here">
+       <span>New to ChatBox ? <a mat-button routerLink="/login/signup"  >SignUp Here</a></span>
+   </div>
+    
+  </div>
